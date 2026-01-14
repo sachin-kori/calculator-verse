@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-user: rgb(235, 242, 118);
+            --blue-grad: linear-gradient(135deg, rgb(0, 98, 255) 0%, rgb(0, 198, 255) 100%);
+            --red-grad: linear-gradient(135deg, rgb(229, 45, 39) 0%, rgb(179, 18, 23) 100%);
+            --green-grad: linear-gradient(135deg, rgb(17, 153, 142) 0%, rgb(56, 239, 125) 100%);
+            --border-color: rgba(0, 0, 0, 0.2);
+            --header-dark: rgb(33, 37, 41);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-user);
+            color: var(--header-dark);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-wrapper {
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .header-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 3.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Card Layout */
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .calc-card {
+            flex: 1 1 auto;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-normal { background: var(--blue-grad); }
+        .card-crazy { background: var(--red-grad); }
+        .card-game { background: var(--green-grad); }
+
+        .calc-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .card-icon { font-size: 5rem; margin-bottom: 15px; }
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: white;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Disclaimer Section with Increased Font */
+        .disclaimer-box {
+            max-width: 800px;
+            margin: 50px auto 30px auto;
+            padding: 25px;
+            border: 2px dashed var(--header-dark);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .disclaimer-text {
+            font-size: 1.25rem; /* Increased Font Size */
+            font-weight: 500;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--header-dark);
+        }
+
+        /* Developer Footer */
+        .developer-footer {
+            flex-shrink: 0;
+            padding-bottom: 50px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .image-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+        }
+
+        .dev-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid var(--header-dark);
+            object-fit: cover;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            display: block;
+        }
+
+        .dev-name {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .calc-card { padding: 40px 10px; }
+            .disclaimer-text { font-size: 1.1rem; }
+            .disclaimer-box { width: 90%; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container main-wrapper">
+        <h1 class="header-title">CALCULATOR HUB</h1>
+        
+        <div class="row g-4 justify-content-center align-items-stretch w-100">
+            <div class="col-md-4">
+                <div class="card-wrapper">
+                    <div class="calc-card card-normal" onclick="navigateTo('normal.html')">
+                        <span class="card-icon">📟</span>
+                        <h2 class="card-title">Normal</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-wrapper">
+                    <div class="calc-card card-crazy" onclick="navigateTo('crazy-grid.html')">
+                        <span class="card-icon">🎭</span>
+                        <h2 class="card-title">Crazy</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-wrapper">
+                    <div class="calc-card card-game" onclick="navigateTo('game.html')">
+                        <span class="card-icon">🎮</span>
+                        <h2 class="card-title">Game</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="disclaimer-box">
+        <p class="disclaimer-text">
+            <strong>⚠️ IMPORTANT NOTE:</strong> The calculators within the "Crazy" and "Game" sections are designed exclusively for entertainment and fun. 
+            As these tools have unique personalities, intentional "errors" or unpredictable results may occur while using them.
+        </p>
+    </div>
+
+    <footer class="developer-footer">
+        <div class="image-container">
+            <img src="Assets/images/dev.jpeg" alt="Developer" class="dev-img">
+        </div>
+        <span class="dev-name">Developed by Sachin Kori </span>
+    </footer>
+
+    <script>
+        function navigateTo(page) {
+            document.body.style.opacity = '0';
+            document.body.style.transition = '0.4s ease';
+            setTimeout(() => {
+                window.location.href = page;
+            }, 400);
+        }
+    </script>
+</body>
+</html>

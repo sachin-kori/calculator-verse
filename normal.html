@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NORMAL CALCULATOR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* High-Energy Green-Blue Background */
+            --bg-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            /* High Contrast Dark Case to prevent camouflage */
+            --calc-case: #0a0f12; 
+            --accent-cyan: #00f2ff;
+            --accent-green: #39ff14;
+            --btn-bg: #152028;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            font-family: 'Michroma', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column; /* Stack heading and calculator */
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: white;
+        }
+
+        /* --- New Heading Style --- */
+        .page-heading {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 40px;
+            text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .calculator-body {
+            background-color: var(--calc-case);
+            padding: 35px;
+            border-radius: 45px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(0, 242, 255, 0.2);
+            position: relative;
+        }
+
+        .display-screen {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: right;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 1);
+        }
+
+        #display {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 3.5rem;
+            color: var(--accent-green);
+            text-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+            margin: 0;
+            letter-spacing: 2px;
+            overflow-x: auto;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .btn-it {
+            height: 70px;
+            border-radius: 20px;
+            border: none;
+            background: var(--btn-bg);
+            color: white;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 4px 4px 0px #000;
+        }
+
+        .btn-it:active, .btn-active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px #000;
+            background: #1e2e3a;
+            color: var(--accent-cyan);
+        }
+
+        .btn-operator { color: var(--accent-cyan); font-weight: bold; }
+        .btn-clear { color: #ff3e3e; }
+        .btn-equal {
+            background: linear-gradient(135deg, #00f2ff, #0062ff);
+            color: white;
+            box-shadow: 4px 4px 0px #003280;
+        }
+
+        .hub-link {
+            position: absolute; top: 25px; left: 25px;
+            text-decoration: none; color: white; opacity: 0.6;
+            font-size: 0.7rem; letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="hub-link">GO BACK</a>
+
+    <h1 class="page-heading">Normal Calculator</h1>
+
+    <div class="calculator-body">
+        <div class="display-screen">
+            <p id="display">0</p>
+        </div>
+
+        <div class="grid-layout">
+            <button class="btn-it btn-clear" id="key-Escape" onclick="clearDisplay()">AC</button>
+            <button class="btn-it btn-operator" id="key-Backspace" onclick="deleteLast()">DEL</button>
+            <button class="btn-it btn-operator" id="key-/" onclick="appendToDisplay('/')">/</button>
+            <button class="btn-it btn-operator" id="key-*" onclick="appendToDisplay('*')">×</button>
+
+            <button class="btn-it" id="key-7" onclick="appendToDisplay('7')">7</button>
+            <button class="btn-it" id="key-8" onclick="appendToDisplay('8')">8</button>
+            <button class="btn-it" id="key-9" onclick="appendToDisplay('9')">9</button>
+            <button class="btn-it btn-operator" id="key--" onclick="appendToDisplay('-')">-</button>
+
+            <button class="btn-it" id="key-4" onclick="appendToDisplay('4')">4</button>
+            <button class="btn-it" id="key-5" onclick="appendToDisplay('5')">5</button>
+            <button class="btn-it" id="key-6" onclick="appendToDisplay('6')">6</button>
+            <button class="btn-it btn-operator" id="key-+" onclick="appendToDisplay('+')">+</button>
+
+            <button class="btn-it" id="key-1" onclick="appendToDisplay('1')">1</button>
+            <button class="btn-it" id="key-2" onclick="appendToDisplay('2')">2</button>
+            <button class="btn-it" id="key-3" onclick="appendToDisplay('3')">3</button>
+            <button class="btn-it btn-equal" id="key-Enter" onclick="calculate()">=</button>
+
+            <button class="btn-it" id="key-0" style="grid-column: span 2;" onclick="appendToDisplay('0')">0</button>
+            <button class="btn-it" id="key-." onclick="appendToDisplay('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+
+        function appendToDisplay(input) {
+            if (display.innerText === '0' && input !== '.') {
+                display.innerText = input;
+            } else {
+                display.innerText += input;
+            }
+        }
+
+        function clearDisplay() { display.innerText = '0'; }
+
+        function deleteLast() {
+            display.innerText = display.innerText.length > 1 ? display.innerText.slice(0, -1) : '0';
+        }
+
+        function calculate() {
+            try {
+                const result = Function('"use strict";return (' + display.innerText + ')')();
+                display.innerText = Number.isInteger(result) ? result : parseFloat(result.toFixed(4));
+            } catch {
+                display.innerText = "ERROR";
+                setTimeout(clearDisplay, 1500);
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            let key = e.key;
+            if ((key >= '0' && key <= '9') || ['/', '*', '+', '-', '.'].includes(key)) {
+                appendToDisplay(key);
+                animateKey(key);
+            } else if (key === 'Enter') {
+                e.preventDefault();
+                calculate();
+                animateKey('Enter');
+            } else if (key === 'Backspace') {
+                deleteLast();
+                animateKey('Backspace');
+            } else if (key === 'Escape') {
+                clearDisplay();
+                animateKey('Escape');
+            }
+        });
+
+        function animateKey(key) {
+            const btn = document.getElementById(`key-${key}`);
+            if (btn) {
+                btn.classList.add('btn-active');
+                setTimeout(() => btn.classList.remove('btn-active'), 100);
+            }
+        }
+    </script>
+</body>
+</html>

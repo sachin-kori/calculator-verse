@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crazy Hub - Mobile Optimized</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --calc-case: rgba(255, 255, 255, 0.15); 
+            --text-light: #ffffff;
+            --btn-red: #ff6b6b;
+        }
+
+        body {
+            background: var(--bg-main);
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Better for scrolling on mobile */
+            padding: 100px 15px 40px 15px; /* Top padding ensures button space */
+            margin: 0;
+        }
+
+        /* --- Responsive Back Button --- */
+        .back-hub-btn {
+            position: fixed; /* Fixed so it's always accessible */
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 107, 107, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 107, 0.5);
+            color: var(--btn-red);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-hub-btn:hover {
+            background: var(--btn-red);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- Bold Heading --- */
+        .page-heading {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.8rem, 8vw, 3.5rem);
+            text-transform: uppercase;
+            letter-spacing: clamp(4px, 2vw, 10px);
+            margin-bottom: 40px;
+            text-align: center;
+            color: var(--text-light);
+            font-weight: 900; 
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            width: 100%;
+        }
+
+        /* --- Flexible Container --- */
+        .hub-case {
+            background: var(--calc-case);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: clamp(20px, 5vw, 50px);
+            border-radius: clamp(30px, 5vw, 60px);
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* --- Responsive Cards --- */
+        .crazy-card {
+            height: clamp(130px, 25vh, 190px);
+            border-radius: clamp(20px, 3vw, 35px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 15px;
+            border: 4px solid transparent; 
+        }
+
+        .card-icon { 
+            font-size: clamp(2rem, 5vw, 3.2rem); 
+            margin-bottom: 8px; 
+        }
+
+        .card-title { 
+            font-size: clamp(0.7rem, 2vw, 0.85rem); 
+            text-transform: uppercase; 
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* --- Hover/Active Logic --- */
+        .crazy-card:hover { transform: translateY(-10px); filter: brightness(1.1); }
+        .crazy-card:active { transform: scale(0.95); }
+
+        /* --- Card Color Rules --- */
+        .card-red { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); border-color: #007bff; }
+        .card-green { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-color: #ff3e3e; }
+        .card-blue { background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); border-color: #ffcc00; }
+        .card-yellow { background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%); border-color: #28a745; color: #222; }
+
+        /* --- Specific Mobile Adjustments --- */
+        @media (max-width: 576px) {
+            body { padding-top: 80px; }
+            .back-hub-btn { top: 15px; left: 15px; width: auto; padding: 8px 15px; }
+            .row { --bs-gutter-x: 0.8rem; --bs-gutter-y: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-hub-btn">BACK</a>
+
+    <h1 class="page-heading">Crazy VERSE</h1>
+
+    <div class="hub-case">
+        <div class="row g-3 g-md-4 justify-content-center">
+            <div class="col-6 col-md-4 col-lg-3"><a href="lazy.html" class="crazy-card card-red"><span class="card-icon">🦥</span><span class="card-title">Lazy<br>Calculator</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="mood.html" class="crazy-card card-green"><span class="card-icon">🎭</span><span class="card-title">Mood-Swing<br>Calculator</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="overdrama.html" class="crazy-card card-blue"><span class="card-icon">🎬</span><span class="card-title">Overdramatic<br>Calculator</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="mom.html" class="crazy-card card-yellow"><span class="card-icon">👩‍🍳</span><span class="card-title">Indian Mom<br>Calculator</span></a></div>
+            
+            <div class="col-6 col-md-4 col-lg-3"><a href="roast.html" class="crazy-card card-blue"><span class="card-icon">🔥</span><span class="card-title">Roasting<br>Calculator</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="confidenceless.html" class="crazy-card card-yellow"><span class="card-icon">🫠</span><span class="card-title">Confidence-Less<br>Calculator</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="sarcastic.html" class="crazy-card card-red"><span class="card-icon">🙄</span><span class="card-title">Sarcastic<br>Calculator</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="ex.html" class="crazy-card card-green"><span class="card-icon">💔</span><span class="card-title">Ex-Relationship<br>Calculator</span></a></div>
+            
+            <div class="col-6 col-md-4 col-lg-3"><a href="procras.html" class="crazy-card card-green"><span class="card-icon">💤</span><span class="card-title">Procrastinator<br>Calculator</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="wrong.html" class="crazy-card card-red"><span class="card-icon">❌</span><span class="card-title">Wrong-But-Confident<br>Calculator</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="monday.html" class="crazy-card card-yellow"><span class="card-icon">✨</span><span class="card-title">Magical<br>Monday</span></a></div>
+            <div class="col-6 col-md-4 col-lg-3"><a href="emoji.html" class="crazy-card card-blue"><span class="card-icon">😎</span><span class="card-title">Emoji-Only<br>Calculator</span></a></div>
+        </div>
+    </div>
+
+</body>
+</html>

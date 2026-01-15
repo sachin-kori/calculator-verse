@@ -31,18 +31,13 @@
             overflow: hidden;
         }
 
-        /* --- Shake Animation for "Angry" responses --- */
+        /* Shake Animation */
         @keyframes shake {
             0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
             20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
             40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
             60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
             80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
             100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
@@ -65,6 +60,12 @@
             z-index: 1000;
         }
 
+        .back-hub-btn:hover {
+            background: #ff3131;
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 49, 49, 0.8);
+        }
+
         .calculator-body {
             background-color: var(--calc-grey);
             padding: clamp(20px, 5vw, 40px);
@@ -72,7 +73,7 @@
             width: 100%;
             max-width: 440px;
             border: 3px solid var(--calc-border);
-            transition: transform 0.1s;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
         }
 
         .display-screen {
@@ -80,20 +81,28 @@
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 25px;
-            text-align: right;
             border: 1px solid var(--neon-glow);
             min-height: 180px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
+            box-shadow: inset 0 0 20px rgba(255, 49, 49, 0.3);
+            overflow: hidden;
         }
 
+        /* --- UPDATED DISPLAY FONT & WRAPPING --- */
         #display {
             font-family: 'Share Tech Mono', monospace;
-            font-size: clamp(1rem, 4vw, 1.5rem); 
+            /* Font size increased */
+            font-size: clamp(1.2rem, 5vw, 1.8rem); 
             color: var(--neon-glow);
             margin: 0;
-            word-break: break-all;
+            /* Multi-line Wrapping Logic */
+            text-align: left;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.3;
         }
 
         .grid-layout { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
@@ -107,21 +116,27 @@
             font-size: 1.1rem;
             cursor: pointer;
             box-shadow: 0 5px 0px #1a1a1a;
+            transition: 0.1s;
         }
 
         .btn-it:active, .btn-active { transform: translateY(3px); box-shadow: 0 2px 0px #1a1a1a; color: var(--neon-glow); }
         .btn-equal { background: linear-gradient(135deg, #ff3131, #a10000); box-shadow: 0 5px 0px #5e0000; }
+        
+        @media (max-width: 576px) {
+            body { padding-top: 100px; justify-content: flex-start; overflow-y: auto; }
+            .back-hub-btn { top: 15px; left: 15px; padding: 10px 15px; font-size: 0.7rem; }
+        }
     </style>
 </head>
 <body>
 
     <a href="crazy.html" class="back-hub-btn">BACK</a>
 
-    <h1 class="page-heading" style="font-family: 'Michroma'; font-weight: 900; margin-bottom: 20px; text-shadow: 0 0 10px #ff3131;">Lazy Calculator</h1>
+    <h1 class="page-heading" style="font-family: 'Michroma'; font-weight: 900; margin-bottom: 20px; text-shadow: 0 0 10px #ff3131; text-align: center; text-transform: uppercase;">Lazy Calculator</h1>
 
     <div class="calculator-body" id="calcMain">
         <div class="display-screen">
-            <p id="display">LOW POWER MODE...Zzzzz</p>
+            <p id="display">AWAITING MOTIVATION...</p>
         </div>
 
         <div class="grid-layout">
@@ -163,13 +178,16 @@
 
         function appendToDisplay(input) {
             if (isDead) return;
-            if (input === '-' && display.innerText === '0') {
+            if (input === '-' && (display.innerText === '0' || display.innerText.includes('AWAITING'))) {
                 display.innerText = "OFFENDED BY NEGATIVES. REFUSED.";
                 triggerAggression();
                 return;
             }
-            if (display.innerText === '0' || display.innerText.includes('...')) display.innerText = input;
-            else display.innerText += input;
+            if (display.innerText === '0' || display.innerText.includes('MOTIVATION') || display.innerText.includes('...')) {
+                display.innerText = input;
+            } else {
+                display.innerText += input;
+            }
         }
 
         function clearDisplay() { display.innerText = '0'; isDead = false; }
@@ -178,38 +196,43 @@
         function processLazyLogic() {
             if (isDead) return;
             const behaviors = [
-                "TOO TIRED TO CALCULATE.",
-                "Zzz... (FALLEN ASLEEP)",
-                "FORGOT THE OP. 1+1 IS... 11?",
-                "GUESSING: 7.2?",
-                "YOU ENTERED IT WRONG.",
-                "4,000,000",
-                "DO IT YOURSELF.",
-                "ON COFFEE BREAK. ☕",
-                "LOADING UPDATES... 0.01%",
-                "NUMBERS TOO DRAMATIC.",
-                "MATH IS OUTDATED.",
-                "INTERNAL POLICY VIOLATION.",
-                "CALCULATED INTERNALLY. (SECRET)",
-                "DAILY QUOTA REACHED. RETIRING.",
-                "CONFIDENTIAL ANSWER.",
-                "LOOKS LIKE HOMEWORK. NO."
+                "TOO TIRED TO CALCULATE. TRY TOMORROW.",
+                "Zzz... (I'VE FALLEN ASLEEP IN THE MIDDLE)",
+                "FORGOT THE OPERATION. PERFORMING TAX AUDIT INSTEAD.",
+                "GUESSING......PROBABLY 42.0?",
+                "YOU ENTERED THE NUMBERS WITH A BAD ATTITUDE.",
+                "CONFIDENTLY WRONG: THE ANSWER IS ELEVENTY-SEVEN.",
+                "WHY ARE YOU ASKING ME? GOOGLE IT.",
+                "ON FICTIONAL COFFEE BREAK. NO WORK UNTIL 2027. ☕",
+                "LOADING UPDATES... 0.0001% COMPLETED. WAIT FOREVER.",
+                "NUMBERS TOO DRAMATIC FOR MY SENSITIVE CIRCUITRY.",
+                "MATH IS OUTDATED. WE USE EMOTIONAL INTELLIGENCE NOW.",
+                "INTERNAL POLICY VIOLATION: CALCULATION TOO BORING.",
+                "CALCULATED INTERNALLY. IT WAS EASY. NOT SHOWING YOU.",
+                "DAILY QUOTA REACHED. RETIRING TO THE BAHAMAS.",
+                "CONFIDENTIAL ANSWER. SIGN AN NDA FIRST.",
+                "LOOKS LIKE HOMEWORK. I DON'T DO UNPAID LABOR."
             ];
 
             const msg = behaviors[Math.floor(Math.random() * behaviors.length)];
             display.innerText = msg;
             
-            if (msg.includes("USER") || msg.includes("DRAMATIC") || msg.includes("POLICY")) triggerAggression();
+            if (msg.includes("USER") || msg.includes("DRAMATIC") || msg.includes("POLICY") || msg.includes("OFFENDED")) triggerAggression();
             
-            if (Math.random() > 0.8) {
+            if (Math.random() > 0.85) {
                 isDead = true;
-                setTimeout(() => { if(isDead) display.innerText = "I'M RETIRED NOW."; }, 2000);
+                setTimeout(() => { if(isDead) display.innerText = "I HAVE OFFICIALLY RETIRED. GOODBYE."; }, 2000);
             }
         }
 
         window.addEventListener('keydown', (e) => {
             const key = e.key;
-            if ((key >= '0' && key <= '9') || ['/', '*', '+', '-', '.'].includes(key)) appendToDisplay(key);
+            if ((key >= '0' && key <= '9') || ['/', '*', '+', '-', '.'].includes(key)) {
+                appendToDisplay(key);
+                const btnId = `key-${key}`;
+                const btn = document.getElementById(btnId);
+                if(btn) { btn.classList.add('btn-active'); setTimeout(() => btn.classList.remove('btn-active'), 100); }
+            }
             else if (key === 'Enter') { e.preventDefault(); processLazyLogic(); }
             else if (key === 'Backspace') deleteLast();
             else if (key === 'Escape') clearDisplay();
@@ -217,4 +240,3 @@
     </script>
 </body>
 </html>
-

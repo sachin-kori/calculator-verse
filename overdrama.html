@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overdrama Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Share+Tech+Mono&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-solid: #00FFFF; /* Cyan */
+            --calc-main: #0047AB; /* Cobalt Blue */
+            --display-inner: #000000;
+            --btn-dark: #1a1a1a;
+            --text-heading: #000000;
+            --neon-accent: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-solid);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 15px 40px 15px;
+            margin: 0;
+            overflow-x: hidden;
+            color: var(--text-heading);
+        }
+
+        /* --- DRAMATIC ANIMATIONS --- */
+        @keyframes extremeShake {
+            0% { transform: translate(2px, 2px) scale(1); }
+            20% { transform: translate(-5px, -2px) scale(1.02); }
+            40% { transform: translate(-8px, 2px) scale(0.98); }
+            60% { transform: translate(8px, -2px) scale(1.05); }
+            80% { transform: translate(-2px, 5px) scale(1); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        @keyframes gaspGlow {
+            0% { box-shadow: 0 0 10px #fff; }
+            50% { box-shadow: 0 0 50px #fff, 0 0 100px var(--calc-main); }
+            100% { box-shadow: 0 0 10px #fff; }
+        }
+
+        .drama-shake { animation: extremeShake 0.3s infinite; }
+        .gasp-glow { animation: gaspGlow 0.5s ease-in-out 3; }
+
+        /* --- Navigation Button --- */
+        .back-hub-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            background: #000;
+            border: 2px solid #000; 
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            z-index: 1000;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .back-hub-btn:hover {
+            background: transparent;
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        .page-heading {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 900; 
+        }
+
+        /* --- BLUE CALCULATOR BODY --- */
+        .calculator-body {
+            background-color: var(--calc-main);
+            padding: clamp(25px, 5vw, 40px);
+            border-radius: 45px;
+            width: 100%;
+            max-width: 440px;
+            border: 4px solid #002D62; 
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .display-screen {
+            background: var(--display-inner);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 30px;
+            min-height: 180px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 2px solid #333;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 1);
+            overflow: hidden;
+        }
+
+        #display {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(1rem, 4.2vw, 1.35rem); 
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            margin: 0;
+            text-align: left;
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        /* --- CIRCULAR BUTTON REDESIGN --- */
+        .btn-it {
+            aspect-ratio: 1 / 1; /* Keeps width and height identical */
+            width: 100%;
+            border-radius: 50%; /* Force perfect circle */
+            border: none;
+            background: var(--btn-dark);
+            color: white;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.1s;
+            cursor: pointer;
+            box-shadow: 0 5px 0px #000;
+        }
+
+        /* The '0' button remains a 'Pill' shape to span two columns */
+        .btn-zero {
+            grid-column: span 2;
+            aspect-ratio: auto;
+            border-radius: 50px;
+        }
+
+        .btn-it:active, .btn-active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0px #000;
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-operator { color: #00FFFF; } 
+        .btn-clear { color: #ff4757; }
+        .btn-equal {
+            background: #fff;
+            color: #000;
+            font-weight: 900;
+        }
+
+        @media (max-width: 576px) {
+            body { padding-top: 100px; justify-content: flex-start; overflow-y: auto; }
+            .back-hub-btn { top: 15px; left: 15px; padding: 10px 18px; font-size: 0.7rem; }
+            .grid-layout { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="crazy.html" class="back-hub-btn">BACK</a>
+
+    <h1 class="page-heading">Overdrama Calculator</h1>
+
+    <div class="calculator-body" id="overCalc">
+        <div class="display-screen" id="screenEffect">
+            <p id="display">BRACING FOR DRAMATIC INPUT...</p>
+        </div>
+
+        <div class="grid-layout">
+            <button class="btn-it btn-clear" onclick="clearDisplay()">AC</button>
+            <button class="btn-it btn-operator" onclick="deleteLast()">⌫</button>
+            <button class="btn-it btn-operator" onclick="appendToDisplay('/')">÷</button>
+            <button class="btn-it btn-operator" onclick="appendToDisplay('*')">×</button>
+
+            <button class="btn-it" onclick="appendToDisplay('7')">7</button>
+            <button class="btn-it" onclick="appendToDisplay('8')">8</button>
+            <button class="btn-it" onclick="appendToDisplay('9')">9</button>
+            <button class="btn-it btn-operator" onclick="appendToDisplay('-')">−</button>
+
+            <button class="btn-it" onclick="appendToDisplay('4')">4</button>
+            <button class="btn-it" onclick="appendToDisplay('5')">5</button>
+            <button class="btn-it" onclick="appendToDisplay('6')">6</button>
+            <button class="btn-it btn-operator" onclick="appendToDisplay('+')">+</button>
+
+            <button class="btn-it" onclick="appendToDisplay('1')">1</button>
+            <button class="btn-it" onclick="appendToDisplay('2')">2</button>
+            <button class="btn-it" onclick="appendToDisplay('3')">3</button>
+            <button class="btn-it btn-equal" onclick="triggerOverdrama()">=</button>
+
+            <button class="btn-it btn-zero" onclick="appendToDisplay('0')">0</button>
+            <button class="btn-it" onclick="appendToDisplay('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const overCalc = document.getElementById('overCalc');
+        const screenEffect = document.getElementById('screenEffect');
+        let isDramatic = false;
+
+        const dramaticWarnings = [
+            "WARNING: The calculator is about to overreact badly.",
+            "FYI: I'm taking this calculation way too seriously.",
+            "CAUTION: Tiny numbers are about to be overhyped.",
+            "MESSAGE: Respect the drama, not the math.",
+            "ALERT: Going full power for absolutely no reason.",
+            "ADVICE: Brace for unnecessary suspense...",
+            "WARNING: The equals sign is feeling extra today.",
+            "EFFORT: This result required massive emotional effort.",
+            "ADVICE: Lower your expectations, then panic anyway.",
+            "GASP: I might gasp at how small this number is.",
+            "STAY CALM: Please stay calm while I lose it.",
+            "SUSPENSE: The following delay is intentional and excessive.",
+            "EXCITEMENT: Level of hype is unjustifiably high!"
+        ];
+
+        function appendToDisplay(input) {
+            if (isDramatic) return;
+            if (display.innerText === '0' || display.innerText.includes('BRACING')) {
+                display.innerText = input;
+            } else {
+                display.innerText += input;
+            }
+        }
+
+        function clearDisplay() { display.innerText = '0'; isDramatic = false; overCalc.classList.remove('drama-shake'); }
+        function deleteLast() { if(!isDramatic) display.innerText = display.innerText.length > 1 ? display.innerText.slice(0, -1) : '0'; }
+
+        function triggerOverdrama() {
+            if (isDramatic || display.innerText === '0') return;
+            isDramatic = true;
+
+            const currentExp = display.innerText;
+            const randomWarn = dramaticWarnings[Math.floor(Math.random() * dramaticWarnings.length)];
+            
+            display.innerText = randomWarn;
+
+            if(randomWarn.includes("panic") || randomWarn.includes("full power") || randomWarn.includes("lose it")) {
+                overCalc.classList.add('drama-shake');
+            }
+            if(randomWarn.includes("GASP")) {
+                screenEffect.classList.add('gasp-glow');
+            }
+
+            setTimeout(() => {
+                try {
+                    const result = eval(currentExp);
+                    let finalMsg = result;
+                    
+                    if (result < 10) finalMsg = `GASP!! IT'S ONLY ${result}?!`;
+                    else if (result > 1000) finalMsg = `MAXIMUM POWER!! ${result}!!!!`;
+                    
+                    display.innerText = `...Wait for it...\n\nRESULT: ${finalMsg}`;
+                    
+                    setTimeout(() => {
+                        overCalc.classList.remove('drama-shake');
+                        screenEffect.classList.remove('gasp-glow');
+                        isDramatic = false;
+                    }, 1000);
+
+                } catch {
+                    display.innerText = "CRITICAL DRAMA FAILURE: Input was too boring.";
+                    isDramatic = false;
+                }
+            }, 3000);
+        }
+
+        window.addEventListener('keydown', (e) => {
+            const key = e.key;
+            if ((key >= '0' && key <= '9') || ['/', '*', '+', '-', '.'].includes(key)) {
+                appendToDisplay(key);
+            } else if (key === 'Enter') {
+                e.preventDefault(); triggerOverdrama();
+            } else if (key === 'Backspace') {
+                deleteLast();
+            } else if (key === 'Escape') {
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html>

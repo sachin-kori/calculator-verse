@@ -8,9 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Share+Tech+Mono&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* BLUE GRADIENT BACKGROUND */
+           
             --bg-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            /* YELLOW CALCULATOR BODY */
             --calc-main: #FFFF00; 
             --display-inner: #000000;
             --btn-dark: #1a1a1a;
@@ -29,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* --- REDIRECT TO CRAZY.HTML --- */
+        
         .back-btn {
             position: fixed;
             top: 15px;
@@ -51,7 +50,7 @@
             background: var(--calc-main);
         }
 
-        /* --- RESPONSIVE HEADING --- */
+       
         .ex-heading {
             font-family: 'Michroma', sans-serif;
             font-size: clamp(1.2rem, 7vw, 2.2rem);
@@ -64,7 +63,7 @@
             text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* --- CALCULATOR BODY --- */
+       
         .calculator-body {
             background-color: var(--calc-main);
             padding: clamp(15px, 4vw, 25px);
@@ -138,7 +137,7 @@
 </head>
 <body>
 
-    <a href="crazy.html" class="back-btn">← BACK</a>
+    <a href="crazy.html" class="back-btn">BACK</a>
 
     <h1 class="ex-heading">Ex-calculator</h1>
 
@@ -183,7 +182,7 @@
             "Your decision to drop that year"
         ];
 
-        // KEYBOARD SUPPORT
+       
         window.addEventListener('keydown', (e) => {
             const key = e.key;
             if ((key >= '0' && key <= '9') || ['/', '*', '+', '-', '.'].includes(key)) handleBtn(key);

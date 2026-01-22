@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Anxious Calculator | Calculator-verse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Share+Tech+Mono&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-solid: #f3ff00; 
+            --calc-main: #b8860b; 
+            --btn-orange: #ff8c00; 
+            --display-inner: #000000;
+            --border-color: #000000;
+        }
+
+        body {
+            background-color: var(--bg-solid);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        @keyframes tremble {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-1px, 1px); }
+            50% { transform: translate(1px, -1px); }
+            75% { transform: translate(-1px, -1px); }
+            100% { transform: translate(1px, 1px); }
+        }
+
+        @keyframes drip {
+            0% { transform: translateY(0); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(20px); opacity: 0; }
+        }
+
+        .shaking { animation: tremble 0.1s infinite; }
+
+        
+        .back-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: #000;
+            color: #fff;
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-decoration: none;
+            border: 2px solid var(--border-color);
+            z-index: 1000;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover { background: #fff; color: #000; }
+
+        .page-heading {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1rem, 6vw, 1.6rem);
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 900;
+        }
+
+        
+        .calculator-body {
+            background-color: var(--calc-main);
+            padding: clamp(15px, 4vw, 25px);
+            border-radius: 35px;
+            width: 95%;
+            max-width: 380px;
+            border: 5px solid var(--border-color);
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        
+        .sweat-drop {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 1.5rem;
+            display: none; 
+            animation: drip 1.5s infinite;
+        }
+
+        .display-screen {
+            background: var(--display-inner);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--border-color);
+            color: #fff;
+            text-align: center;
+        }
+
+        #display { 
+            font-family: 'Share Tech Mono', monospace; 
+            font-size: clamp(0.85rem, 4vw, 1.05rem); 
+            margin: 0; 
+            line-height: 1.4;
+            word-break: keep-all; 
+            overflow-wrap: break-word; 
+        }
+
+        .grid-layout { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: clamp(8px, 2vw, 12px); 
+        }
+
+        .btn-it {
+            aspect-ratio: 1/1;
+            border-radius: 16px;
+            background: var(--btn-orange);
+            color: #000;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.1s;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 0px var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-it:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0px var(--border-color);
+        }
+
+        .btn-equal { background: #fff; }
+
+        @media (max-width: 400px) {
+            .calculator-body { padding: 12px; }
+            .grid-layout { gap: 8px; }
+            .display-screen { min-height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="crazy.html" class="back-btn">BACK</a>
+
+    <h1 class="page-heading">CONFIDENCE-LESS CALCULATOR</h1>
+
+    <div class="calculator-body" id="calcBody">
+        <span class="sweat-drop" id="sweat">💦</span>
+
+        <div class="display-screen">
+            <p id="display">Umm... hi. Is it okay if I calculate?</p>
+        </div>
+
+        <div class="grid-layout">
+            <button class="btn-it" onclick="handleBtn('AC')">AC</button>
+            <button class="btn-it" onclick="handleBtn('DEL')">⌫</button>
+            <button class="btn-it" onclick="handleBtn('/')">÷</button>
+            <button class="btn-it" onclick="handleBtn('*')">×</button>
+
+            <button class="btn-it" onclick="handleBtn('7')">7</button>
+            <button class="btn-it" onclick="handleBtn('8')">8</button>
+            <button class="btn-it" onclick="handleBtn('9')">9</button>
+            <button class="btn-it" onclick="handleBtn('-')">−</button>
+
+            <button class="btn-it" onclick="handleBtn('4')">4</button>
+            <button class="btn-it" onclick="handleBtn('5')">5</button>
+            <button class="btn-it" onclick="handleBtn('6')">6</button>
+            <button class="btn-it" onclick="handleBtn('+')">+</button>
+
+            <button class="btn-it" onclick="handleBtn('1')">1</button>
+            <button class="btn-it" onclick="handleBtn('2')">2</button>
+            <button class="btn-it" onclick="handleBtn('3')">3</button>
+            <button class="btn-it btn-equal" onclick="handleCalculate()">=</button>
+
+            <button class="btn-it" style="grid-column: span 2; border-radius: 16px; aspect-ratio: auto;" onclick="handleBtn('0')">0</button>
+            <button class="btn-it" onclick="handleBtn('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const calcBody = document.getElementById('calcBody');
+        const sweat = document.getElementById('sweat');
+
+        window.addEventListener('keydown', (e) => {
+            const key = e.key;
+            if ((key >= '0' && key <= '9') || ['/', '*', '+', '-', '.'].includes(key)) handleBtn(key);
+            else if (key === 'Enter') { e.preventDefault(); handleCalculate(); }
+            else if (key === 'Backspace') handleBtn('DEL');
+        });
+
+        function handleBtn(val) {
+            if (val === 'AC') {
+                display.innerText = "Okay, starting over. I'm sorry.";
+            } else if (val === 'DEL') {
+                display.innerText = display.innerText.length > 1 ? display.innerText.slice(0, -1) : '0';
+            } else {
+                if (display.innerText.includes('?')) display.innerText = val;
+                else if (display.innerText === '0') display.innerText = val;
+                else display.innerText += val;
+            }
+            checkAnxiety();
+        }
+
+        function checkAnxiety() {
+            
+            if (display.innerText.length > 6 && !display.innerText.includes('?')) {
+                calcBody.classList.add('shaking');
+                sweat.style.display = 'block';
+            } else {
+                calcBody.classList.remove('shaking');
+                sweat.style.display = 'none';
+            }
+        }
+
+        async function handleCalculate() {
+            let expr = display.innerText;
+            if (expr === '0' || isNaN(expr[0]) && expr[0] !== '-') return;
+
+           
+            calcBody.classList.remove('shaking');
+            sweat.style.display = 'none';
+
+            display.innerText = "Asking permission from the numbers...";
+            await new Promise(r => setTimeout(r, 800));
+
+            display.innerText = "Checking once... checking twice...";
+            await new Promise(r => setTimeout(r, 1000));
+            
+            display.innerText = "Checking again... in case math changed...";
+            await new Promise(r => setTimeout(r, 1000));
+
+            try {
+                let result = eval(expr);
+                if (result < 0) {
+                    display.innerText = "I tried to avoid a negative result. " + result;
+                } else if (result % 1 !== 0) {
+                    display.innerText = result + "... Decimals feel so judgmental.";
+                } else if (Math.random() > 0.5) {
+                    display.innerText = result + "... I think? I'm probably wrong.";
+                } else {
+                    display.innerText = result + " | (Side-eyes answer suspiciously)";
+                }
+
+                setTimeout(() => {
+                    display.innerText += "\n(Sighs with relief for surviving that)";
+                }, 1500);
+
+            } catch {
+                display.innerText = "... (I made a mistake, I'll just be quiet)";
+            }
+        }
+    </script>
+</body>
+</html>

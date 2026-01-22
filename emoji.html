@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Calculator | Calculator-verse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Share+Tech+Mono&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #FF0080;
+            --neon-blue: #00E5FF;
+            --vada-pav-yellow: #FFCC33;
+        }
+
+        body {
+            background: radial-gradient(circle, #222, #000);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        /* --- RESPONSIVE HEADING --- */
+        .page-heading {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.2rem, 8vw, 2.5rem);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 900;
+            text-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        /* --- UI ELEMENTS --- */
+        .calculator-body {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 40px;
+            width: 100%;
+            max-width: 380px;
+            border: 8px solid #000;
+            box-shadow: 15px 15px 0px var(--neon-pink);
+            position: relative;
+        }
+
+        .display-screen {
+            background: #000;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            border: 4px solid #333;
+            color: #39FF14;
+            box-shadow: inset 0 0 15px rgba(0,255,0,0.2);
+        }
+
+        #display { 
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(1.2rem, 5vw, 1.6rem); 
+            margin: 0; 
+            word-break: break-all; 
+            text-align: right; 
+        }
+
+        #status { 
+            font-family: 'Michroma', sans-serif; 
+            font-size: 0.65rem; 
+            color: var(--neon-pink); 
+            text-align: center; 
+            width: 100%; 
+            margin-bottom: 10px; 
+            height: 20px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grid-layout { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 12px; 
+        }
+
+        .btn-it {
+            aspect-ratio: 1/1;
+            border-radius: 18px;
+            border: 3px solid #000;
+            background: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 0px #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .btn-it:active { 
+            transform: translateY(4px); 
+            box-shadow: 0 1px 0px #000; 
+        }
+
+        .btn-op { background: var(--neon-blue); }
+        .btn-eq { background: var(--vada-pav-yellow); font-size: 1.8rem; }
+        .btn-special { background: #ff4d4d; color: white; }
+
+        .back-btn {
+            position: fixed; top: 15px; left: 15px;
+            background: #fff; color: #000;
+            padding: 8px 20px; border-radius: 50px;
+            font-weight: 700; text-decoration: none;
+            border: 3px solid #000; z-index: 1000;
+        }
+
+        @media (max-width: 480px) {
+            .calculator-body { width: 95%; padding: 15px; }
+            .btn-it { font-size: 1.2rem; }
+            .grid-layout { gap: 8px; }
+            .page-heading { margin-bottom: 15px; }
+        }
+    </style>
+</head>
+<body id="mainBody">
+
+    <a href="crazy.html" class="back-btn">ESCAPE</a>
+
+    <h1 class="page-heading">Emoji calculator</h1>
+
+    <div class="calculator-body" id="calcBody">
+        <div class="display-screen">
+            <div id="status">System Online...</div>
+            <p id="display">0</p>
+        </div>
+
+        <div class="grid-layout">
+            <button class="btn-it btn-special" onclick="handleInput('AC')">🦁</button>
+            <button class="btn-it btn-special" onclick="handleInput('DEL')">🚕</button>
+            <button class="btn-it btn-op" onclick="handleInput('/')">🌴</button>
+            <button class="btn-it btn-op" onclick="handleInput('*')">💣</button>
+
+            <button class="btn-it" onclick="handleInput('7')">🐵</button>
+            <button class="btn-it" onclick="handleInput('8')">🌲</button>
+            <button class="btn-it" onclick="handleInput('9')">🛵</button>
+            <button class="btn-it btn-op" onclick="handleInput('-')">🐯</button>
+
+            <button class="btn-it" onclick="handleInput('4')">🐻</button>
+            <button class="btn-it" onclick="handleInput('5')">🖖</button>
+            <button class="btn-it" onclick="handleInput('6')">🚆</button>
+            <button class="btn-it btn-op" onclick="handleInput('+')">💥</button>
+
+            <button class="btn-it" onclick="handleInput('1')">🐘</button>
+            <button class="btn-it" onclick="handleInput('2')">🚐</button>
+            <button class="btn-it" onclick="handleInput('3')">🦒</button>
+            <button class="btn-it btn-eq" onclick="calculate()">😎</button>
+
+            <button class="btn-it" style="grid-column: span 2; aspect-ratio: auto;" onclick="handleInput('0')">🍩</button>
+            <button class="btn-it" onclick="handleInput('.')">🌵</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const status = document.getElementById('status');
+        const body = document.getElementById('mainBody');
+
+        const map = {
+            '0':'🍩', '1':'🐘', '2':'🚐', '3':'🦒', '4':'🐻', '5':'🖖', '6':'🚆', '7':'🐵', '8':'🌲', '9':'🛵',
+            '+':'💥', '-':'🐯', '*':'💣', '/':'🌴', '.':'🌵'
+        };
+
+        const memes = [
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGJpbmZicWszbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKSjPqcKlxwLq9G/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGJpbmZicWszbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/26tP4pNig3F915HUs/giphy.gif',
+            'https://i.imgflip.com/4/30zz5g.jpg'
+        ];
+
+        let rawInput = "";
+
+        function handleInput(v) {
+            body.style.backgroundImage = "none";
+            body.style.background = "radial-gradient(circle, #222, #000)";
+            status.style.color = "var(--neon-pink)";
+            status.innerText = "Processing...";
+
+            if (v === 'AC') {
+                rawInput = "";
+            } else if (v === 'DEL') {
+                rawInput = rawInput.toString().slice(0, -1);
+            } else {
+                rawInput += v;
+            }
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            let s = "";
+            for (let c of rawInput) {
+                s += map[c] || c;
+            }
+            display.innerText = s || "0";
+        }
+
+        function calculate() {
+            try {
+                if (!rawInput) return;
+                
+                let res = eval(rawInput);
+                
+                // Indian Cricket & Marvel Easter Eggs
+                if (res === 18) status.innerText = "KING KOHLI MODE ACTIVATED! 👑🏏";
+                else if (res === 45) status.innerText = "HITMAN IN THE HOUSE! 🏏🔥";
+                else if (res === 3000) status.innerText = "I LOVE YOU 3000 ❤️";
+                else if (res === 0) status.innerText = "Bank Balance: 0. Engineering life. 😭";
+                else status.innerText = "Calculation Successful 💻";
+
+                let resStr = res.toString();
+                let emojiRes = "";
+                for (let c of resStr) {
+                    emojiRes += map[c] || c;
+                }
+                display.innerText = "✨ " + emojiRes + " ✨";
+                rawInput = resStr;
+
+            } catch {
+                display.innerText = "😵 ERROR! KYA KAR RAHA HAI?";
+                status.innerText = "ABSOLUTE FAILURE! SHAME!";
+                status.style.color = "red";
+                
+                const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+                body.style.backgroundImage = `url('${randomMeme}')`;
+                body.style.backgroundSize = "cover";
+                body.style.backgroundPosition = "center";
+                
+                rawInput = "";
+            }
+        }
+    </script>
+</body>
+</html>

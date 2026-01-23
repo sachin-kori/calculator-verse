@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Procrastinator | Calculator-verse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            
+            --bg-fluorescent-green: #39FF14;
+            --calc-fluorescent-yellow: #DFFF00;
+            --display-inner: #000000;
+            --btn-lazy: #e0e0e0;
+            --border-black: #000000;
+        }
+
+        body {
+            background-color: var(--bg-fluorescent-green);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            margin: 0;
+            overflow-x: hidden;
+            transition: 0.3s;
+        }
+
+        
+        .back-btn {
+            position: fixed; top: 15px; left: 15px;
+            background: #000; color: #fff;
+            padding: 8px 22px; border-radius: 50px;
+            font-weight: 700; text-decoration: none;
+            border: 2px solid #fff; z-index: 1000;
+        }
+
+        
+        .nap-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 2000; display: none;
+            justify-content: center; align-items: center;
+            color: white; font-size: 2rem;
+        }
+
+        .zzz { animation: snooze 2s infinite; font-size: 4rem; font-weight: 900; }
+        @keyframes snooze { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
+
+        
+        .calculator-body {
+            background-color: var(--calc-fluorescent-yellow);
+            padding: clamp(20px, 5vw, 30px);
+            border-radius: 40px;
+            width: 100%;
+            max-width: 380px;
+            border: 6px solid var(--border-black);
+            box-shadow: 15px 15px 0px rgba(0,0,0,1);
+            position: relative;
+        }
+
+        .page-heading {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1rem, 6vw, 1.5rem);
+            color: #000;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .display-screen {
+            background: var(--display-inner);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 25px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #00FF41;
+            text-align: center;
+            border: 4px solid var(--border-black);
+        }
+
+        #display { 
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.15rem; 
+            margin: 0; 
+            word-break: break-all;
+        }
+
+        .progress-container {
+            width: 85%; height: 10px; background: #222;
+            border-radius: 5px; margin-top: 15px; display: none;
+            border: 2px solid #00FF41;
+        }
+        .progress-fill {
+            width: 1%; height: 100%; background: #00FF41;
+            border-radius: 5px; transition: width 0.4s;
+        }
+
+       
+        .grid-layout { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 12px; 
+        }
+
+        .btn-it {
+            aspect-ratio: 1/1;
+            border-radius: 15px;
+            border: 3px solid var(--border-black);
+            background: #fff;
+            color: #000;
+            font-size: 1.3rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 0px var(--border-black);
+            transition: 0.1s;
+        }
+
+        .btn-it:active { transform: translateY(3px); box-shadow: 0 1px 0px var(--border-black); }
+        .btn-nap { background: #ff00ff; color: white; } 
+        .btn-eq { background: #000; color: var(--bg-fluorescent-green); }
+
+        @media (max-width: 400px) {
+            .calculator-body { padding: 15px; }
+            .grid-layout { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nap-overlay" id="napOverlay">
+        <div class="zzz">Zzz... 💤</div>
+    </div>
+
+    <a href="crazy.html" class="back-btn">Escape...</a>
+
+    <h1 class="page-heading">The Procrastinator</h1>
+
+    <div class="calculator-body" id="calcBody">
+        <div class="display-screen" id="screen">
+            <p id="display">Tap something. Or don't. I'm tired.</p>
+            <div class="progress-container" id="pBar">
+                <div class="progress-fill" id="pFill"></div>
+            </div>
+        </div>
+
+        <div class="grid-layout">
+            <button class="btn-it" onclick="handleInput('AC')">AC</button>
+            <button class="btn-it" onclick="handleInput('DEL')">⌫</button>
+            <button class="btn-it btn-nap" onclick="takeNap()">😴</button>
+            <button class="btn-it" onclick="handleInput('/')">÷</button>
+
+            <button class="btn-it" onclick="handleInput('7')">7</button>
+            <button class="btn-it" onclick="handleInput('8')">8</button>
+            <button class="btn-it" onclick="handleInput('9')">9</button>
+            <button class="btn-it" onclick="handleInput('*')">×</button>
+
+            <button class="btn-it" onclick="handleInput('4')">4</button>
+            <button class="btn-it" onclick="handleInput('5')">5</button>
+            <button class="btn-it" onclick="handleInput('6')">6</button>
+            <button class="btn-it" onclick="handleInput('-')">−</button>
+
+            <button class="btn-it" onclick="handleInput('1')">1</button>
+            <button class="btn-it" onclick="handleInput('2')">2</button>
+            <button class="btn-it" onclick="handleInput('3')">3</button>
+            <button class="btn-it" onclick="handleInput('+')">+</button>
+
+            <button class="btn-it" style="grid-column: span 2; aspect-ratio: auto;" onclick="handleInput('0')">0</button>
+            <button class="btn-it" onclick="handleInput('.')">.</button>
+            <button class="btn-it btn-eq" onclick="startProcrastinating()">=</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const pBar = document.getElementById('pBar');
+        const pFill = document.getElementById('pFill');
+        const napOverlay = document.getElementById('napOverlay');
+        let currentInput = "";
+        let isBusy = false;
+
+        
+        window.addEventListener('keydown', (e) => {
+            if (isBusy) return;
+            const key = e.key;
+
+            if (key >= '0' && key <= '9' || ['/', '*', '+', '-', '.'].includes(key)) {
+                handleInput(key);
+            } else if (key === 'Enter') {
+                e.preventDefault();
+                startProcrastinating();
+            } else if (key === 'Backspace') {
+                handleInput('DEL');
+            } else if (key === 'Escape') {
+                handleInput('AC');
+            }
+        });
+
+        function handleInput(val) {
+            if (isBusy) return;
+            
+            if (val === 'AC') {
+                currentInput = "";
+                display.innerText = "Cleared. Too much work anyway.";
+            } else if (val === 'DEL') {
+                currentInput = currentInput.slice(0, -1);
+                display.innerText = currentInput || "0";
+            } else {
+                
+                if ((currentInput + val).includes("37")) {
+                    currentInput = "";
+                    display.innerText = "Lost count... let's start over later. 🥱";
+                    return;
+                }
+                
+                if ((val === '8' || val === '4') && Math.random() > 0.7) {
+                    display.innerText = "Skipped #"+val+". Too heavy to lift.";
+                    return;
+                }
+
+                currentInput += val;
+                display.innerText = currentInput;
+                if (currentInput.length > 8) display.innerText = "That’s a lot. Wow. Slow down.";
+            }
+        }
+
+        async function takeNap() {
+            if (isBusy) return;
+            isBusy = true;
+            napOverlay.style.display = "flex";
+            await new Promise(r => setTimeout(r, 10000)); 
+            napOverlay.style.display = "none";
+            display.innerText = "Yawn... I was dreaming of math. 🥱";
+            isBusy = false;
+        }
+
+        async function startProcrastinating() {
+            if (currentInput === "" || isBusy) return;
+            isBusy = true;
+            pBar.style.display = "block";
+            
+            const excuses = [
+                { t: "Still thinking...", p: 1, d: 2000 },
+                { t: "Loading… pressure detected", p: 2, d: 2000 },
+                { t: "Coffee break animation...", p: 5, d: 2500 },
+                { t: "Returns from break with no progress", p: 5, d: 1500 },
+                { t: "Loading… please don’t watch", p: 8, d: 2000 },
+                { t: "Almost there at 12%", p: 12, d: 1500 },
+                { t: "Almost there at 13%", p: 13, d: 2000 },
+                { t: "Any second now...", p: 13, d: 2000 },
+                { t: "I forgot what I was doing.", p: 0, d: 2000 }
+            ];
+
+            for (let step of excuses) {
+                display.innerText = step.t;
+                pFill.style.width = step.p + "%";
+                await new Promise(r => setTimeout(r, step.d));
+            }
+
+            display.innerText = "Result: I'll tell you tomorrow.";
+            pBar.style.display = "none";
+            currentInput = "";
+            isBusy = false;
+        }
+    </script>
+</body>
+</html>

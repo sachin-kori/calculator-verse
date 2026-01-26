@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Intellectual Superior | Calculator-verse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Share+Tech+Mono&family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --calc-yellow: #ffff00; 
+            --display-bg: #000000;
+            --border-black: #000000;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* --- GLITCH ANIMATION --- */
+        @keyframes glitch {
+            0% { transform: translate(0); text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitch-active {
+            animation: glitch 0.2s infinite;
+            border-color: #ff0000 !important;
+            color: #ff0000 !important;
+        }
+
+        /* --- BACK BUTTON --- */
+        .back-btn {
+            position: fixed; top: 15px; left: 15px;
+            background: #000; color: #fff;
+            padding: 10px 25px; border-radius: 50px;
+            font-weight: 700; text-decoration: none;
+            border: 2px solid #fff; z-index: 1000;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover { background: #fff; color: #000; border-color: #000; }
+
+        .page-heading {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            color: #fff;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 4px 4px 0px #000;
+            margin-bottom: 20px;
+        }
+
+        /* --- CALCULATOR BODY --- */
+        .calculator-body {
+            background-color: var(--calc-yellow);
+            padding: clamp(20px, 5vw, 30px);
+            border-radius: 40px;
+            width: 100%;
+            max-width: 400px;
+            border: 6px solid var(--border-black);
+            box-shadow: 15px 15px 0px rgba(0,0,0,1);
+            position: relative;
+        }
+
+        .display-screen {
+            background: var(--display-bg);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            border: 4px solid var(--border-black);
+            color: #ffff00;
+            transition: 0.1s;
+        }
+
+        #sarcasm-bar {
+            font-size: 0.75rem;
+            color: #a29bfe;
+            margin-bottom: 10px;
+            font-style: italic;
+            width: 100%;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        #display { 
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(1rem, 4vw, 1.4rem); 
+            margin: 0; 
+            word-break: break-all;
+            text-align: right;
+        }
+
+        .grid-layout { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 12px; 
+        }
+
+        .btn-it {
+            aspect-ratio: 1/1;
+            border-radius: 15px;
+            border: 3px solid var(--border-black);
+            background: #fff;
+            color: #000;
+            font-size: 1.4rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 5px 0px var(--border-black);
+            transition: 0.1s;
+        }
+
+        .btn-it:active { transform: translateY(4px); box-shadow: 0 1px 0px var(--border-black); }
+        .btn-op { background: #a29bfe; }
+        .btn-eq { background: #000; color: #fff; }
+
+        @media (max-width: 450px) {
+            .calculator-body { padding: 15px; }
+            .grid-layout { gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="crazy.html" class="back-btn">APOLOGIZE</a>
+
+    <h1 class="page-heading">Sarcastic Calculator</h1>
+
+    <div class="calculator-body">
+        <div class="display-screen" id="screen">
+            <div id="sarcasm-bar">Waiting for your inevitable mistake...</div>
+            <p id="display">0</p>
+        </div>
+
+        <div class="grid-layout">
+            <button class="btn-it btn-op" onclick="handleInput('AC')">AC</button>
+            <button class="btn-it btn-op" onclick="handleInput('DEL')">⌫</button>
+            <button class="btn-it btn-op" onclick="handleInput('/')">÷</button>
+            <button class="btn-it btn-op" onclick="handleInput('*')">×</button>
+
+            <button class="btn-it" onclick="handleInput('7')">7</button>
+            <button class="btn-it" onclick="handleInput('8')">8</button>
+            <button class="btn-it" onclick="handleInput('9')">9</button>
+            <button class="btn-it btn-op" onclick="handleInput('-')">−</button>
+
+            <button class="btn-it" onclick="handleInput('4')">4</button>
+            <button class="btn-it" onclick="handleInput('5')">5</button>
+            <button class="btn-it" onclick="handleInput('6')">6</button>
+            <button class="btn-it btn-op" onclick="handleInput('+')">+</button>
+
+            <button class="btn-it" onclick="handleInput('1')">1</button>
+            <button class="btn-it" onclick="handleInput('2')">2</button>
+            <button class="btn-it" onclick="handleInput('3')">3</button>
+            <button class="btn-it btn-eq" onclick="calculate()">=</button>
+
+            <button class="btn-it" style="grid-column: span 2; aspect-ratio: auto;" onclick="handleInput('0')">0</button>
+            <button class="btn-it" onclick="handleInput('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const screen = document.getElementById('screen');
+        const sarcasm = document.getElementById('sarcasm-bar');
+        let currentRaw = "";
+
+        // KEYBOARD ACCESS
+        window.addEventListener('keydown', (e) => {
+            if ((e.key >= '0' && e.key <= '9') || ['/', '*', '+', '-', '.'].includes(e.key)) handleInput(e.key);
+            else if (e.key === 'Enter') { e.preventDefault(); calculate(); }
+            else if (e.key === 'Backspace') handleInput('DEL');
+            else if (e.key === 'Escape') handleInput('AC');
+        });
+
+        function handleInput(v) {
+            screen.classList.remove('glitch-active'); // Stop glitching on new input
+            if (v === 'AC') {
+                currentRaw = "";
+                sarcasm.innerText = "Memory cleared. Yours and mine.";
+            } else if (v === 'DEL') {
+                currentRaw = currentRaw.slice(0, -1);
+                sarcasm.innerText = "Deleting your regrets...";
+            } else {
+                currentRaw += v;
+                sarcasm.innerText = "Oh, another input? Riveting.";
+            }
+            display.innerText = currentRaw || "0";
+        }
+
+        function calculate() {
+            if (!currentRaw) return;
+            try {
+                let resVal = eval(currentRaw);
+                
+                if (currentRaw.includes('+') && resVal < 50) {
+                    sarcasm.innerText = "Basic addition? Truly a challenge for you.";
+                } else {
+                    sarcasm.innerText = "Success. I've lowered my standards for you.";
+                }
+
+                display.innerText = "Result: " + resVal;
+                currentRaw = resVal.toString();
+
+            } catch {
+                // ACTIVATE GLITCH ON FAILURE
+                screen.classList.add('glitch-active');
+                
+                const errors = [
+                    "Error! SUCCESS! You broke logic! 🏆",
+                    "Invalid. Brilliant choice of numbers.",
+                    "FAILED. It's definitely your fault."
+                ];
+                display.innerText = errors[Math.floor(Math.random() * errors.length)];
+                sarcasm.innerText = "CRITICAL LOGIC FAILURE DETECTED!";
+                currentRaw = "";
+            }
+        }
+    </script>
+</body>
+</html>
